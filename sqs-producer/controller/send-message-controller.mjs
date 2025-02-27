@@ -1,31 +1,22 @@
-import AWS from 'aws-sdk';
+import { SendMessageCommand } from "@aws-sdk/client-sqs"; 
+import client from '../config/aws/sqs-config.mjs'
+import config from 'config';
 
-AWS.config.update({ region: 'sa-east-1'});
+const queueURL = config.get('aws.sqs.deliveryQueueUrl');
 
-const sqs = new AWS.SQS({ apiVersion: '2012-11-05'});
+export const sendMessage = async (req,res) => {
+    try {
+        const params = {
+            MessageBody: JSON.stringify(req.body),
+            QueueUrl: queueURL,
+        };
 
-const queueURL = 'https://localhost.localstack.cloud:4566/000000000000/delivery-queue';
-
-const sendMessage = (req,res) => {
-    console.log(req.body);
-    var message = JSON.stringify(req.body);
-    console.log(message);
-    const params = {
-        MessageBody: message,
-        QueueUrl: queueURL,
+        const sqsResult = await client.send(new SendMessageCommand(params));
+        return res.status(sqsResult.$metadata.httpStatusCode).json({"message": 'Message was posted successfully', 'id': sqsResult.MessageId});
+    } catch (err) {
+        res.status(err.$metadata.httpStatusCode).json({"message": 'Error trying to post a message', 
+                                                        "type": err.__type,
+                                                        "code": err.Code
+                                                    });
     }
-
-    var ret = sqs.sendMessage(params, (err, data) => {
-        if(err){
-            console.error('Sending a message threw an error', err);
-            return err;
-        } else {
-            console.log('Message was sent successfully');
-            return data;
-        }
-    });
-
-    res.status(200).json(ret);
-};
-
-export default sendMessage;
+}
