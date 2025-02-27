@@ -1,0 +1,9 @@
+{
+    "aws": {
+        "region": "sa-east-1",
+        "sqs": {
+            "endpoint": "https://localhost.localstack.cloud:4566",
+            "deliveryQueueUrl" : "https://localhost.localstack.cloud:4566/000000000000/delivery-queue"
+        }
+    }
+}
