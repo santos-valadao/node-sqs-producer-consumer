@@ -10,7 +10,7 @@ app.use(cors());
 app.use('/producer', sendMessageRouter);
 
 app.get('/health', (req,res) => {
-    res.send('Application is healthy');
-})
+    res.json({'status': 'OK'});
+});
 
 export default app;
