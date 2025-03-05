@@ -2,6 +2,7 @@
 
 echo "Initializing localstack sqs..."
 
-awslocal sqs create-queue --queue-name delivery-queue
+awslocal sqs create-queue --queue-name sqs-consumer-queue
+awslocal sqs create-queue --queue-name sqs-producer-queue
 
-echo "Queue created successfully!"
+echo "Queues created successfully!"

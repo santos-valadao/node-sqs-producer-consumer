@@ -1,0 +1,20 @@
+{
+  "name": "sqs-consumer",
+  "version": "1.0.0",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "test": "node --experimental-vm-modules --passWithNoTests ../node_modules/jest/bin/jest.js",
+    "start": "node ./server/server.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@aws-sdk/client-sqs": "^3.758.0",
+    "axios": "^1.8.1",
+    "config": "^3.3.12",
+    "express": "^4.21.2"
+  }
+}
